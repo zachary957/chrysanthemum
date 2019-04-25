@@ -1,13 +1,14 @@
 package com.eutopia.mapper;
 
 import com.eutopia.entity.ArticleDescription;
+import tk.mybatis.mapper.common.Mapper;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
-public interface ArticleDescriptionMapper {
+public interface ArticleDescriptionMapper extends Mapper<ArticleDescription> {
 
-    @Select("SELECT * FROM article_description")
+    /*@Select("SELECT * FROM article_description")
     @Results({
             @Result(property = "gmtCreate", column = "gmt_create"),
             @Result(property = "gmtModified", column = "gmt_modified"),
@@ -30,5 +31,5 @@ public interface ArticleDescriptionMapper {
     Integer deleteById(int id);
 
     @Update("UPDATE article_description SET title = #{title}, source = #{source}, author = #{author}, sort = #{sort}, gmt_modified = #{gmtModified} where id = #{id}")
-    Integer update(ArticleDescription articleDescription);
+    Integer update(ArticleDescription articleDescription);*/
 }

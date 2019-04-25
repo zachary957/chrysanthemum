@@ -1,12 +1,10 @@
-package com.eutopia.entity;
+package com.eutopia.DTO;
 
-import com.eutopia.entity.common.BaseEntity;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
+//TODO 应该在客户端
 @Data
-@EqualsAndHashCode(callSuper = false)
-public class ArticleDescription extends BaseEntity {
+public class ArticleDTO {
 
     private Integer menuId;
 
@@ -19,4 +17,6 @@ public class ArticleDescription extends BaseEntity {
     private String author;
 
     private Integer sort;
+
+    private String content;
 }

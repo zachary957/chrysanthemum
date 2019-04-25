@@ -6,17 +6,9 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class ArticleDescription extends BaseEntity {
+public class Menu extends BaseEntity {
 
-    private Integer menuId;
-
-    private String title;
-
-    private String summary;
-
-    private String source;
-
-    private String author;
+    private String menuDescription;
 
     private Integer sort;
 }
