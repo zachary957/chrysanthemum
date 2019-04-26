@@ -2,11 +2,9 @@ package com.eutopia.bean;
 
 import lombok.Data;
 
-import java.io.Serializable;
-
 //TODO 应该在common或者客户端
 @Data
-public class ResultBean<T> implements Serializable {
+public class ResultBean<T> {
 
     private static final long serialVersionUID = 1L;
 
