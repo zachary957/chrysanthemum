@@ -7,11 +7,15 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="common" />
         <module name="haruna" />
+        <module name="shimakaze" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="common" target="1.8" />
       <module name="haruna" target="1.8" />
+      <module name="shimakaze" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

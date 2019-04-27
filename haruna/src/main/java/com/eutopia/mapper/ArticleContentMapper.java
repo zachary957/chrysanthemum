@@ -1,8 +1,8 @@
 package com.eutopia.mapper;
 
 import com.eutopia.entity.ArticleContent;
-import tk.mybatis.mapper.common.Mapper;
+import com.eutopia.register.MyMapper;
 
-public interface ArticleContentMapper extends Mapper<ArticleContent> {
+public interface ArticleContentMapper extends MyMapper<ArticleContent> {
 
 }

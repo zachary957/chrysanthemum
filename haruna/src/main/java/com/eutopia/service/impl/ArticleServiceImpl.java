@@ -14,8 +14,16 @@ import com.eutopia.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
+import org.springframework.util.CollectionUtils;
+import tk.mybatis.mapper.entity.Example;
+import utils.MapperUtils;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -39,14 +47,12 @@ public class ArticleServiceImpl implements ArticleService {
         }
 
         ArticleDescription articleDescription = new ArticleDescription();
-        BeanCopier beanCopier = BeanCopier.create(ArticleDTO.class, ArticleDescription.class, false);
-        beanCopier.copy(articleDTO, articleDescription, null);
+        MapperUtils.beanCopy(articleDTO, articleDescription);
         articleDescription.setGmtCreate(new Date());
         articleDescriptionMapper.insertSelective(articleDescription);
 
         ArticleContent articleContent = new ArticleContent();
-        beanCopier = BeanCopier.create(ArticleDTO.class, ArticleContent.class, false);
-        beanCopier.copy(articleDTO, articleContent, null);
+        MapperUtils.beanCopy(articleDTO, articleContent);
         articleContent.setArticleDescriptionId(articleDescription.getId());
         articleContent.setGmtCreate(new Date());
         articleContentMapper.insertSelective(articleContent);
@@ -60,10 +66,74 @@ public class ArticleServiceImpl implements ArticleService {
         }
 
         ArticleComment articleComment = new ArticleComment();
-        BeanCopier beanCopier = BeanCopier.create(ArticleCommentDTO.class, ArticleComment.class, false);
-        beanCopier.copy(articleCommentDTO, articleComment, null);
+        MapperUtils.beanCopy(articleCommentDTO, articleComment);
         articleComment.setGmtCreate(new Date());
         articleCommentMapper.insertSelective(articleComment);
         return articleComment.getId();
+    }
+
+    @Override
+    public Integer removeArticle(ArticleDTO articleDTO) {
+        if (articleDescriptionMapper.deleteByUpdateState(articleDTO.getArticleDescriptionId()) > 0) {
+            Example example = new Example(ArticleContent.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andCondition("article_description_id = ", articleDTO.getArticleDescriptionId());
+            return articleContentMapper.deleteByUpdateState(articleContentMapper.selectOneByExample(example).getId());
+        }
+        return 0;
+    }
+
+    @Override
+    public Integer removeArticleComment(ArticleCommentDTO articleCommentDTO) {
+        return articleCommentMapper.deleteByUpdateState(articleCommentDTO.getId());
+    }
+
+    @Override
+    public Integer modifyArticle(ArticleDTO articleDTO) {
+        ArticleDescription articleDescription = new ArticleDescription();
+        MapperUtils.beanCopy(articleDTO, articleDescription);
+        articleDescription.setGmtModified(new Date());
+        articleDescriptionMapper.updateByPrimaryKeySelective(articleDescription);
+
+        Example example = new Example(ArticleContent.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andCondition("article_description_id = ", articleDTO.getArticleDescriptionId());
+        ArticleContent articleContent = articleContentMapper.selectOneByExample(example);
+        MapperUtils.beanCopy(articleDTO, articleContent);
+        articleContent.setGmtModified(new Date());
+        articleContentMapper.updateByPrimaryKeySelective(articleContent);
+        return 1;
+    }
+
+    @Override
+    public Integer modifyArticleComment(ArticleCommentDTO articleCommentDTO) {
+        ArticleComment articleComment = new ArticleComment();
+        MapperUtils.beanCopy(articleCommentDTO, articleComment);
+        articleComment.setGmtModified(new Date());
+        return articleCommentMapper.updateByPrimaryKeySelective(articleComment);
+    }
+
+    @Override
+    public List<ArticleDTO> selecteArticle(ArticleDTO articleDTO) {
+        if (articleDTO == null) {
+            List<ArticleDTO> articleDTOList = new ArrayList<>();
+            MapperUtils.batchBeanCopy(articleContentMapper.selectAll(), articleDTOList);
+            MapperUtils.batchBeanCopy(articleDescriptionMapper.selectAll(), articleDTOList);
+            return articleDTOList;
+        }
+        return null;
+    }
+
+    @Override
+    public List<ArticleCommentDTO> selectArticleComment(ArticleCommentDTO articleCommentDTO) {
+        List<ArticleCommentDTO> articleCommentDTOList = new ArrayList<>();
+        BeanCopier beanCopier = BeanCopier.create(ArticleCommentDTO.class, ArticleComment.class, false);
+        if (articleCommentDTO.getId() == null) {
+            List<ArticleComment> articleCommentList = articleCommentMapper.selectAll();
+            if (!CollectionUtils.isEmpty(articleCommentList)) {
+                return null;
+            }
+        }
+        return null;
     }
 }

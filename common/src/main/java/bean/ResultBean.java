@@ -1,8 +1,7 @@
-package com.eutopia.bean;
+package bean;
 
 import lombok.Data;
 
-//TODO 应该在common或者客户端
 @Data
 public class ResultBean<T> {
 

@@ -3,6 +3,7 @@ package com.eutopia;
 import com.eutopia.DTO.ArticleCommentDTO;
 import com.eutopia.DTO.ArticleDTO;
 import com.eutopia.DTO.MenuDTO;
+import com.eutopia.mapper.ArticleDescriptionMapper;
 import com.eutopia.service.ArticleService;
 import com.eutopia.service.MenuService;
 import org.junit.Test;
@@ -22,6 +23,9 @@ public class TestMybatis {
 
     @Autowired
     private MenuService menuService;
+
+    @Autowired
+    private ArticleDescriptionMapper articleDescriptionMapper;
 
     @Test
     public void testArticleService() {
@@ -48,5 +52,18 @@ public class TestMybatis {
         articleCommentDTO.setContent("嗯?");
         articleCommentDTO.setNickName("好困");
         System.out.println(articleService.addArticleComment(articleCommentDTO));
+        System.out.println(articleService);
+    }
+
+    @Test
+    public void testDelete() {
+        ArticleDTO articleDTO = new ArticleDTO();
+        articleDTO.setArticleDescriptionId(3);
+        System.out.println(articleService.removeArticle(articleDTO));
+    }
+
+    @Test
+    public void testMyMapper() {
+        System.out.println(articleDescriptionMapper.selectArticleById(3));
     }
 }

@@ -1,12 +1,29 @@
 package com.eutopia.entity;
 
-import com.eutopia.entity.common.BaseEntity;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import org.apache.ibatis.type.JdbcType;
+import tk.mybatis.mapper.annotation.ColumnType;
+
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import java.util.Date;
 
 @Data
-@EqualsAndHashCode(callSuper=false)
-public class ArticleComment extends BaseEntity {
+public class ArticleComment {
+
+    @Id
+    @GeneratedValue(generator = "JDBC")
+    private Integer id;
+
+    @ColumnType(column = "gmt_create", jdbcType = JdbcType.TIMESTAMP)
+    private Date gmtCreate;
+
+    @ColumnType(column = "gmt_modified", jdbcType = JdbcType.TIMESTAMP)
+    private Date gmtModified;
+
+    @Column(name = "is_deleted")
+    private Boolean deleted;
 
     private Integer articleDescriptionId;
 

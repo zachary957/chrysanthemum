@@ -19,4 +19,14 @@ public class MyMapperProvider extends MapperTemplate {
         sql.append(SqlHelper.wherePKColumns(entityClass));
         return sql.toString();
     }
+
+    public String selectAll(MappedStatement ms) {
+        final Class<?> entityClass = getEntityClass(ms);
+        setResultType(ms, entityClass);
+        StringBuilder sql = new StringBuilder();
+        sql.append(SqlHelper.selectAllColumns(entityClass));
+        sql.append(SqlHelper.fromTable(entityClass,tableName(entityClass)));
+        sql.append(SqlHelper.orderByDefault(entityClass));
+        return sql.toString();
+    }
 }

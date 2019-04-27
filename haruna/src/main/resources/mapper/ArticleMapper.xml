@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eutopia.mapper.ArticleDescriptionMapper" >
+    <resultMap id="BaseResultMap" type="com.eutopia.entity.ArticleDescription" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="menu_id" property="menuId" jdbcType="BIGINT" />
+        <result column="title" property="title" jdbcType="VARCHAR" />
+        <result column="summary" property="summary" jdbcType="VARCHAR" />
+        <result column="source" property="source" jdbcType="VARCHAR" />
+        <result column="author" property="author" jdbcType="VARCHAR" />
+        <result column="sort" property="sort" jdbcType="INTEGER" />
+    </resultMap>
+    
+    <resultMap id="extendResultMap" type="com.eutopia.entity.ArticleDescription" extends="BaseResultMap">
+        <result column="content" property="content" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="selectArticleById" resultMap="extendResultMap">
+        SELECT ad.id, ad.menu_id, ad.title, ad.summary, ad.source, ad.author, ad.gmt_create, ac.content
+        FROM article_description ad
+        LEFT JOIN article_content ac ON ad.id = ac.article_description_id
+        <where>
+            ad.id = #{id} and ad.is_deleted = 0
+        </where>
+    </select>
+
+</mapper>
