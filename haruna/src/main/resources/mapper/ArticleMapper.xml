@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.eutopia.mapper.ArticleDescriptionMapper" >
-    <resultMap id="BaseResultMap" type="com.eutopia.entity.ArticleDescription" >
+<mapper namespace="com.eutopia.mapper.ArticleMapper" >
+    <resultMap id="BaseResultMap" type="Article" >
         <id column="id" property="id" jdbcType="BIGINT" />
         <result column="menu_id" property="menuId" jdbcType="BIGINT" />
         <result column="title" property="title" jdbcType="VARCHAR" />
         <result column="summary" property="summary" jdbcType="VARCHAR" />
         <result column="source" property="source" jdbcType="VARCHAR" />
         <result column="author" property="author" jdbcType="VARCHAR" />
+        <result column="content" property="content" jdbcType="VARCHAR" />
         <result column="sort" property="sort" jdbcType="INTEGER" />
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/>
+        <result column="is_deleted" property="deleted" jdbcType="TINYINT"/>
     </resultMap>
     
-    <resultMap id="extendResultMap" type="com.eutopia.entity.ArticleDescription" extends="BaseResultMap">
-        <result column="content" property="content" jdbcType="VARCHAR" />
-    </resultMap>
-
-    <select id="selectArticleById" resultMap="extendResultMap">
+    <select id="selectArticleById" resultMap="BaseResultMap">
         SELECT ad.id, ad.menu_id, ad.title, ad.summary, ad.source, ad.author, ad.gmt_create, ac.content
         FROM article_description ad
         LEFT JOIN article_content ac ON ad.id = ac.article_description_id

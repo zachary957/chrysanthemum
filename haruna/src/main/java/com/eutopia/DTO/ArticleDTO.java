@@ -4,7 +4,6 @@ import lombok.Data;
 
 import java.io.Serializable;
 
-//TODO 应该在客户端
 @Data
 public class ArticleDTO implements Serializable {
 

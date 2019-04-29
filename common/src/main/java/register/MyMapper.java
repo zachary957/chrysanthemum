@@ -1,8 +1,8 @@
-package com.eutopia.register;
+package register;
 
-import com.eutopia.register.impl.MyMapperProvider;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
-import org.apache.ibatis.annotations.UpdateProvider;
+import register.impl.MyMapperProvider;
 import tk.mybatis.mapper.annotation.RegisterMapper;
 import tk.mybatis.mapper.common.Mapper;
 
@@ -13,4 +13,5 @@ public interface MyMapper<T> extends Mapper<T> {
 
     @SelectProvider(type = MyMapperProvider.class, method = "dynamicSQL")
     List<T> selectAll();
+
 }

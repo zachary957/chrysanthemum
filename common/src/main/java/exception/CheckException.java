@@ -1,4 +1,4 @@
-package com.eutopia.exception;
+package exception;
 
 public class CheckException extends RuntimeException {
 

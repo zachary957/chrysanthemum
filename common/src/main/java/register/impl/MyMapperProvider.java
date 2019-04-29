@@ -1,4 +1,4 @@
-package com.eutopia.register.impl;
+package register.impl;
 
 import org.apache.ibatis.mapping.MappedStatement;
 import tk.mybatis.mapper.mapperhelper.MapperHelper;
@@ -17,5 +17,14 @@ public class MyMapperProvider extends MapperTemplate {
         return SqlHelper.selectAllColumns(entityClass) +
                 SqlHelper.fromTable(entityClass, tableName(entityClass)) +
                 SqlHelper.orderByDefault(entityClass);
+    }
+
+    public String existsWithColumn(MappedStatement ms) {
+        Class<?> entityClass = this.getEntityClass(ms);
+        StringBuilder sql = new StringBuilder();
+        sql.append(SqlHelper.selectCountExists(entityClass));
+        sql.append(SqlHelper.fromTable(entityClass, this.tableName(entityClass)));
+        sql.append(SqlHelper.wherePKColumns(entityClass));
+        return sql.toString();
     }
 }

@@ -2,10 +2,10 @@ package com.eutopia;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
+import tk.mybatis.spring.annotation.MapperScan;
 
 @SpringBootApplication
-@EnableEurekaServer
+@MapperScan("com.eutopia.mapper")
 public class ShimakazeApplication {
 
     public static void main(String[] args) {
