@@ -1,0 +1,18 @@
+jwt:
+  rsa-secret: xx1WET14^%5^(WE14
+  expire: 1800
+  token-header: Authorization
+spring:
+  redis:
+    host: 127.0.0.1
+    port: 6379
+  main:
+      allow-bean-definition-overriding: true
+  application:
+    name: nagato
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+server:
+  port: 8763
